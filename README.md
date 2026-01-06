@@ -11,7 +11,7 @@ claude plugin marketplace add georgeguimaraes/claude-code-graphite
 Install all plugins:
 
 ```bash
-claude plugin install graphite-stacked-prs@claude-code-graphite && \
+claude plugin install graphite@claude-code-graphite && \
 claude plugin install graphite-mcp@claude-code-graphite
 ```
 
@@ -32,21 +32,22 @@ claude plugin install graphite-mcp@claude-code-graphite
 
 | Plugin | Type | Description |
 |--------|------|-------------|
-| [graphite-stacked-prs](#graphite-stacked-prs) | Skill + Hook | Graphite workflow, gt commands, conflict resolution |
-| [graphite-mcp](#graphite-mcp) | MCP | Graphite MCP server integration |
+| [graphite](#graphite) | Skill + Hook | gt commands, stack planning, conflict resolution |
+| [graphite-mcp](#graphite-mcp) | MCP | Graphite MCP server integration (gt mcp) |
 
 ---
 
-### graphite-stacked-prs
+### graphite
 
-Skill for working with Graphite CLI (`gt`) for stacked PR workflows.
+Skill and hooks for Graphite CLI (`gt`) stacked PR workflows.
 
 | Feature | Description |
 |---------|-------------|
 | Detection | Auto-detects Graphite repos via `.git/.graphite_repo_config` |
 | Commands | Uses `gt` commands instead of `git` for commits/branches |
-| SessionStart hook | Quick command reference when entering a Graphite repo |
+| Stack planning | Break features into atomic, reviewable PRs |
 | Conflict resolution | Guidance for handling restack conflicts |
+| SessionStart hook | Context when entering a Graphite repo |
 
 **Commit style:** Conventional commits (feat:, fix:, etc.), casual and concise, no LLM fluff.
 
@@ -56,12 +57,12 @@ Skill for working with Graphite CLI (`gt`) for stacked PR workflows.
 
 ### graphite-mcp
 
-Adds the Graphite MCP server.
+MCP server integration for Graphite CLI.
 
 | Feature | Description |
 |---------|-------------|
-| MCP tools | Provides Graphite tools via Model Context Protocol |
-| Built-in | Uses `gt mcp` from Graphite CLI (v1.6.7+) |
+| MCP tools | Graphite tools via Model Context Protocol |
+| Command | Uses `gt mcp` from Graphite CLI (v1.6.7+) |
 
 ---
 
