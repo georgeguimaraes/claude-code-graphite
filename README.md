@@ -67,6 +67,6 @@ Adds the Graphite MCP server.
 
 ## License
 
-Copyright (c) 2025 George Guimarães
+Copyright (c) 2026 George Guimarães
 
 Licensed under the Apache License, Version 2.0.
