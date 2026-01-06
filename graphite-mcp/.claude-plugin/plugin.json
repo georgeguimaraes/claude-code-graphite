@@ -1,0 +1,5 @@
+{
+  "name": "graphite-mcp",
+  "version": "0.1.0",
+  "description": "Graphite MCP server for AI-generated stacked PRs"
+}

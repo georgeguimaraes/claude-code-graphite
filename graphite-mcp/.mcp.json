@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "graphite": {
+      "command": "gt",
+      "args": ["mcp"]
+    }
+  }
+}

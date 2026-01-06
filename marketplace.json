@@ -1,0 +1,18 @@
+{
+  "name": "claude-code-graphite",
+  "description": "Claude Code plugins and MCPs for Graphite stacked PRs workflow",
+  "plugins": [
+    {
+      "name": "graphite-stacked-prs",
+      "path": "./graphite-stacked-prs",
+      "description": "Graphite CLI workflow for stacked PRs",
+      "version": "0.1.0"
+    },
+    {
+      "name": "graphite-mcp",
+      "path": "./graphite-mcp",
+      "description": "Graphite MCP server for AI-generated stacked PRs",
+      "version": "0.1.0"
+    }
+  ]
+}
