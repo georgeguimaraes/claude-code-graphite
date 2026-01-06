@@ -22,7 +22,27 @@ When Graphite is detected, use `gt` commands instead of `git` for all commit and
 
 ## MCP Server
 
-A Graphite MCP server may be available (check with `/mcp`). If the `graphite` MCP is connected, it provides tools to automatically break large changes into stacked PRs. Use MCP tools when available for complex multi-file changes.
+A Graphite MCP server may be available (check with `/mcp`). If the `graphite` MCP is connected, it provides tools to work with stacked PRs.
+
+## Planning Stacks (CRITICAL)
+
+**Before writing any code, present the stack structure and ask for confirmation.**
+
+When building a feature as a stack:
+
+1. **Plan first** - break the work into logical, sequential PRs
+2. **Use TodoWrite** - each todo item maps to one PR/`gt create`
+3. **Present the structure** - show the user the planned stack:
+   ```
+   PR Stack for [Feature]:
+   1. PR 1: [description] - [what it does]
+   2. PR 2: [description] - [what it does]
+   3. PR 3: [description] - [what it does]
+   ```
+4. **Ask for confirmation** - "Does this structure look good to proceed?"
+5. **Only then start coding**
+
+**IMPORTANT:** Each PR must be atomic and pass CI independently. Verify this before committing.
 
 ## Command Mapping
 
@@ -32,7 +52,7 @@ Use these `gt` commands instead of their git equivalents:
 |------------|-----|---------|
 | `git commit` | `gt create -am "msg"` | Create new branch/PR with changes |
 | `git commit --amend` | `gt modify -a` | Amend current PR |
-| `git push` | `gt submit --stack` or `gt ss` | Push entire stack |
+| `git push` | `gt submit --no-interactive` | Submit current + all downstack branches |
 | `git pull` | `gt sync` | Pull trunk, restack, clean merged |
 | `git checkout` | `gt checkout <branch>` | Switch branches |
 | `git rebase` | `gt restack` | Rebase stack (usually via `gt sync`) |
@@ -71,10 +91,11 @@ Keep descriptions casual, concise, and human-like. Avoid corporate speak or over
 
 ## Stack Philosophy
 
-Each PR in a stack should be:
+Each PR in a stack must be:
+- **Atomic** - passes CI independently, no broken intermediate states
 - **Small** - ideally under 250 lines changed
 - **Focused** - one logical change per branch
-- **Independent** - reviewable on its own (even if it depends on others)
+- **Reviewable** - makes sense on its own (even if it depends on others)
 
 Break large features into functional components:
 - Database changes first
@@ -115,16 +136,12 @@ When `gt sync` encounters conflicts, it pauses for resolution. See conflict reso
 Push changes with:
 
 ```bash
-gt submit --stack   # Push current branch and all descendants
-gt ss               # Shorthand for above
-gt ss -u            # Update existing PRs only (no new PRs)
+gt submit --no-interactive   # Submit current + all downstack branches (recommended)
+gt submit --stack            # Submit current + all descendant branches
+gt ss                        # Shorthand for --stack
 ```
 
-For a single PR without descendants:
-```bash
-gt submit           # Push current branch only
-gt s                # Shorthand
-```
+Use `--no-interactive` to avoid prompts during submission.
 
 ## Conflict Resolution
 
@@ -180,25 +197,20 @@ See `references/cheatsheet.md` for a complete command reference.
 
 ## Common Workflows
 
-### Starting a New Feature
+### Building a Feature as a Stack
+
+1. Plan the stack structure first (use TodoWrite)
+2. Present to user and get confirmation
+3. Implement each PR sequentially:
 
 ```bash
-gt sync                           # Get latest
-gt create -am "feat: Add user avatar support"
-# ... make more changes ...
-gt modify -a                      # Amend to current PR
-gt ss                             # Push stack
-```
-
-### Stacking Multiple PRs
-
-```bash
+gt sync                                    # Get latest
 gt create -am "feat: Add avatar upload API"
-# ... work on next piece ...
+# ... verify it passes CI ...
 gt create -am "feat: Add avatar display component"
-# ... work on next piece ...
+# ... verify it passes CI ...
 gt create -am "feat: Add avatar to user profile"
-gt ss                             # Push entire stack
+gt submit --no-interactive                 # Submit entire stack
 ```
 
 ### Addressing Review Feedback
@@ -206,14 +218,14 @@ gt ss                             # Push entire stack
 ```bash
 gt checkout <branch-with-feedback>
 # ... make fixes ...
-gt modify -a                      # Amend changes
-gt ss                             # Push updates (auto-restacks dependents)
+gt modify -a                               # Amend changes
+gt submit --no-interactive                 # Push updates (auto-restacks dependents)
 ```
 
 ### Daily Sync Routine
 
 ```bash
-gt sync                           # Pull, restack, clean
+gt sync                                    # Pull, restack, clean
 # Resolve any conflicts if prompted
-gt continue -a                    # After resolving
+gt continue -a                             # After resolving
 ```
