@@ -6,17 +6,17 @@
   "metadata": {
     "description": "Claude Code plugins for Graphite stacked PRs workflow",
     "homepage": "https://github.com/georgeguimaraes/claude-code-graphite",
-    "pluginRoot": "."
+    "pluginRoot": "./plugins"
   },
   "plugins": [
     {
       "name": "graphite",
-      "source": "./graphite",
+      "source": "./plugins/graphite",
       "description": "Graphite CLI workflow for stacked PRs"
     },
     {
       "name": "graphite-mcp",
-      "source": "./graphite-mcp",
+      "source": "./plugins/graphite-mcp",
       "description": "Graphite MCP server for AI-generated stacked PRs"
     }
   ]
